@@ -1,26 +1,53 @@
 from pathlib import Path
 
 from loguru import logger
-from tqdm import tqdm
 import typer
-
-from iraklis7_linrg.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
+import pandas as pd
+import iraklis7_linrg.config as config
 
 app = typer.Typer()
+
+
+def transform_data(data, sqm_limit):
+    result = data.copy()
+    # Drop rows where square meters are more then 300
+    result = result.query(f'Εμβαδόν < {sqm_limit}')
+    # Drop rows where floor is unspecified
+    result['Όροφος'] = result['Όροφος'].fillna('NULL')
+    result = result.query('Όροφος != "NULL"')
+    # Set rows where view is unspecifed to 'No View'
+    result['Θέα'] = result['Θέα'].fillna('0')
+    # Set rows where elevator is unspecified to 'No Elevator'
+    result['Ασανσέρ'] = result['Ασανσέρ'].fillna('0')
+    # Remove thousands from price and convert to numeric
+    result['Τιμή'] = result['Τιμή']/1000
+    result['Αρχική Τιμή'] = result['Αρχική Τιμή']/1000
+
+    return result
 
 
 @app.command()
 def main(
     # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
-    input_path: Path = RAW_DATA_DIR / "dataset.csv",
-    output_path: Path = PROCESSED_DATA_DIR / "dataset.csv",
+    input_path: Path = config.RAW_DATA_DIR / config.DATASET,
+    output_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC,
+    features_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC_FEATURES,
+    labels_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC_LABELS,
     # ----------------------------------------------
 ):
     # ---- REPLACE THIS WITH YOUR OWN CODE ----
     logger.info("Processing dataset...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
+    data = config.read_data(input_path)
+    if data is None:
+        raise ValueError("read_data failed - data is None")
+
+    # Tranform data
+    logger.info("Transforming data ...")
+    data_tr = transform_data(data, 300)
+
+    logger.info("Writing features and labels to file ...")
+    config.write_data(output_path,data_tr)
+    
     logger.success("Processing dataset complete.")
     # -----------------------------------------
 

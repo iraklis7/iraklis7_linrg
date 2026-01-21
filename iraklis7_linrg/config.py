@@ -1,10 +1,17 @@
+import sys
 from pathlib import Path
-
 from dotenv import load_dotenv
 from loguru import logger
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
 
 # Load environment variables from .env file if it exists
 load_dotenv()
+
+extra_path = "/Users/iraklis/Public/iraklis7_linrg"
+if extra_path not in sys.path:
+    sys.path.append(extra_path)
 
 # Paths
 PROJ_ROOT = Path(__file__).resolve().parents[1]
@@ -20,6 +27,34 @@ MODELS_DIR = PROJ_ROOT / "models"
 
 REPORTS_DIR = PROJ_ROOT / "reports"
 FIGURES_DIR = REPORTS_DIR / "figures"
+
+DATASET = "listings_data.csv"
+DATASET_PROC = DATASET.replace(".csv", "_norm.csv")
+DATASET_PROC_FEATURES = DATASET.replace(".csv", "_features.csv")
+DATASET_PROC_LABELS = DATASET.replace(".csv", "_labels.csv")
+DATASET_MODEL = DATASET.replace(".csv", "_model.joblib")
+DATASET_PREDICTIONS = DATASET.replace(".csv", "_predictions.csv")
+
+INITIAL_PLOT = DATASET.replace(".csv", "_initial_plot.png")
+CLEANING_PLOT = DATASET.replace(".csv", "_cleaning_plot.png")
+TRAINING_PLOT = DATASET.replace(".csv", "_training_plot.png") 
+FEATURES_PLOT = DATASET.replace(".csv", "_features.png") 
+
+scaler = StandardScaler()
+
+
+def read_data(input_path):
+    try:
+        return pd.read_csv(input_path)
+    except Exception as e:
+        logger.exception("Unable to load data: " + str(e))
+
+def write_data(output_path, data):
+    try:
+        data.to_csv(output_path, index=False)
+    except Exception as e:
+        logger.exception("Unable to write data: " + str(e))
+
 
 # If tqdm is installed, configure loguru with tqdm.write
 # https://github.com/Delgan/loguru/issues/135

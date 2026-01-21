@@ -1,6 +1,24 @@
 # Data
 /data/
 
+# Bin folder
+bin/
+
+# Etc folder
+etc/
+
+# Include folder
+include/
+share/
+
+# PCA files
+0b-pca copy.ipynb
+0b-pca.ipynb
+
+# Parser files
+parser.py
+scraper_auto.py
+
 # Mac OS-specific storage files
 .DS_Store
 
