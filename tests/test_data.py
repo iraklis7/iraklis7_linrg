@@ -1,6 +1,5 @@
 import pytest
 from pathlib import Path
-import numpy as np
 from loguru import logger
 from tqdm import tqdm
 from time import sleep
@@ -13,12 +12,11 @@ import iraklis7_linrg.features as featuresd
 
 
 def test_re_model():
-    features_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC_FEATURES
     labels_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC_LABELS
     predictions_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PREDICTIONS
 
     # Mean absolute error (MAE) needs to over this threshold for the test to pass
-    accuracy_threshold = 65
+    mae_threshold = 70
 
     logger.info("Building environment")
     dataset.main()
@@ -27,13 +25,10 @@ def test_re_model():
     predict.main()
 
     logger.info("Loading data")
-    features = pd.DataFrame(config.read_data(features_path))
-    if features is None:
-        raise ValueError("read_data failed - data is None")
     labels = config.read_data(labels_path)
     if labels is None:
         raise ValueError("read_data failed - data is None")
-    predictions = pd.DataFrame(config.read_data(predictions_path))
+    predictions = config.read_data(predictions_path)
     if predictions is None:
         raise ValueError("read_data failed - data is None")
 
@@ -56,5 +51,5 @@ def test_re_model():
     
     # Derive MAE
     mae = mae / num_predictions
-    assert(mae > accuracy_threshold), f"MAE below accurcacy threshold of {accuracy_threshold}%"
+    assert(mae <= mae_threshold), f"MAE below accurcacy threshold of {accuracy_threshold}%"
     logger.info(f"Mean Absolute Error (MAE): {mae}")

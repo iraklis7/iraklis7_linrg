@@ -5,7 +5,6 @@ from sklearn.linear_model import SGDRegressor
 from joblib import dump
 import pandas as pd
 import iraklis7_linrg.config as config
-import iraklis7_linrg.plots as plots
 import iraklis7_linrg.modeling.train as train
 
 app = typer.Typer()

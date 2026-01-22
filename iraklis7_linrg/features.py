@@ -3,6 +3,7 @@ from loguru import logger
 import typer
 import pandas as pd
 import iraklis7_linrg.config as config
+import iraklis7_linrg.plots as plots
 
 app = typer.Typer()
 
@@ -54,7 +55,8 @@ def main(
     # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
     input_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC,
     features_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC_FEATURES,
-    labels_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC_LABELS
+    labels_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC_LABELS,
+    plot_path: Path = config.FIGURES_DIR / config.CLEANING_PLOT,
     # -----------------------------------------
 ):
     # ---- REPLACE THIS WITH YOUR OWN CODE ----
@@ -91,7 +93,11 @@ def main(
     logger.info("Writing features and labels to file ...")
     config.write_data(features_path,features_norm)
     config.write_data(labels_path,labels)   
-        
+
+    # Generate plot    
+    features_sel = features_norm[['Εμβαδόν', 'Θέα', 'Όροφος Ρετιρέ', 'Κατάσταση', 'Ασανσέρ από 3ο']]
+    plots.gen(list(features_sel), features_sel.to_numpy(), labels, None, None, None, show=False, output_path=plot_path)
+
     logger.success("Features generation complete.")
     # -----------------------------------------
 

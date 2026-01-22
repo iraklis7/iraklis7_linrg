@@ -31,8 +31,6 @@ def main(
     # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
     input_path: Path = config.RAW_DATA_DIR / config.DATASET,
     output_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC,
-    features_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC_FEATURES,
-    labels_path: Path = config.PROCESSED_DATA_DIR / config.DATASET_PROC_LABELS,
     # ----------------------------------------------
 ):
     # ---- REPLACE THIS WITH YOUR OWN CODE ----
@@ -40,6 +38,13 @@ def main(
     data = config.read_data(input_path)
     if data is None:
         raise ValueError("read_data failed - data is None")
+
+    # Inspect data
+    logger.debug(data.sample(5))
+    logger.debug(data.info())
+    logger.debug(data.isna().sum())
+    logger.debug(data.describe())
+    logger.debug(data.select_dtypes('number'))
 
     # Tranform data
     logger.info("Transforming data ...")

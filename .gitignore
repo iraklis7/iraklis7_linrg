@@ -3,6 +3,7 @@
 data/processed/*.csv
 reports/figures/*.png 
 models/*.joblib
+out
 
 # Bin folder
 bin/

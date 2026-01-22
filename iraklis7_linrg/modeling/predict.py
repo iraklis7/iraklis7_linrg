@@ -1,6 +1,5 @@
 from pathlib import Path
 from loguru import logger
-from tqdm import tqdm
 import typer
 import pandas as pd
 import joblib
@@ -61,9 +60,7 @@ def main(
     b_norm = linreg_model.intercept_
     w_norm = linreg_model.coef_
     dataN = features.to_numpy()
-    plots.gen(list(dataN), dataN, labels, predictions, w_norm, b_norm, plot_path, False)
-
-
+    plots.gen(list(dataN), dataN, labels, predictions, w_norm, b_norm, show=False, output_path=plot_path)
 
     logger.info(f"Samnple predictions on training set:\n{predictions[:4]}" )
     logger.info("Writing predictions to " + str(predictions_path))
