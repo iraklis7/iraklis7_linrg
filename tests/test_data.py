@@ -51,5 +51,5 @@ def test_re_model():
     
     # Derive MAE
     mae = mae / num_predictions
-    assert(mae <= mae_threshold), f"MAE below accurcacy threshold of {accuracy_threshold}%"
+    assert(mae <= mae_threshold), f"MAE below accurcacy threshold of {mae_threshold}%"
     logger.info(f"Mean Absolute Error (MAE): {mae}")
