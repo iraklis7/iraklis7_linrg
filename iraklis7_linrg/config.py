@@ -45,9 +45,10 @@ scaler = StandardScaler()
 
 def read_data(input_path):
     try:
-        return pd.read_csv(input_path)
+        return pd.DataFrame(pd.read_csv(input_path))
     except Exception as e:
         logger.exception("Unable to load data: " + str(e))
+        raise
 
 def write_data(output_path, data):
     try:
