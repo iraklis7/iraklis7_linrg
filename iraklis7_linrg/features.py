@@ -8,9 +8,9 @@ app = typer.Typer()
 
 def is_top_floor(floor, total_floors):
     if(floor is not None and total_floors is not None):
-        return int(floor == total_floors)
+        return int(floor == total_floors and floor > 3)
     else:
-        return False
+        return 0
     
 def calc_age(year_built):
     from datetime import datetime

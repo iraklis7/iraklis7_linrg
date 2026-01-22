@@ -1,5 +1,7 @@
 # Data
 #/data/
+data/processed/*.csv
+reports/figures/*.png 
 
 # Bin folder
 bin/
