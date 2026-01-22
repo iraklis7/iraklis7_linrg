@@ -36,6 +36,7 @@ DATASET_MODEL = DATASET.replace(".csv", "_model.joblib")
 DATASET_PREDICTIONS = DATASET.replace(".csv", "_predictions.csv")
 
 INITIAL_PLOT = DATASET.replace(".csv", "_initial_plot.png")
+HEATMAP_PLOT = DATASET.replace(".csv", "_heatmap_plot.png")
 CLEANING_PLOT = DATASET.replace(".csv", "_cleaning_plot.png")
 TRAINING_PLOT = DATASET.replace(".csv", "_training_plot.png") 
 FEATURES_PLOT = DATASET.replace(".csv", "_features.png") 

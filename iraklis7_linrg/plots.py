@@ -3,12 +3,24 @@ from pathlib import Path
 from loguru import logger
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+import seaborn as sns
 import typer
 import pandas as pd
 
 import iraklis7_linrg.config as config
 
 app = typer.Typer()
+
+def do_heatmap(data, show=False, output_path=None):
+    plt.title("Correlation Heatmap")
+    sns.heatmap(data.corr(numeric_only=True))
+    if(show):
+        plt.show()
+    if(output_path is not None):
+        try:
+            plt.savefig(output_path)
+        except Exception as e:
+            logger.exception("Unable to save plot: " + str(e))
 
 def do_hist(data, width, height, show):
     data.hist(figsize=(width,height), edgecolor="black")

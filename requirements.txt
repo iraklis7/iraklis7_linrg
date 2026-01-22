@@ -13,6 +13,7 @@ pip
 pytest
 python-dotenv
 scikit-learn
+seaborn
 tqdm
 typer
 joblib
