@@ -10,6 +10,11 @@ import iraklis7_linrg.config as config
 
 app = typer.Typer()
 
+def do_hist(data, width, height, show):
+    plt.hist(data, figsize=(width,height), edgecolor="black")
+    if(show):
+        plt.show()
+
 def gen(X_features, X_train, y_train, y_pred, w_norm, b_norm, output_path, show):
     fig,ax=plt.subplots(1, 4, figsize=(12, 3), sharey=True)
     for i in range(len(ax)):
