@@ -6,6 +6,7 @@ from joblib import dump
 import pandas as pd
 import iraklis7_linrg.config as config
 import iraklis7_linrg.modeling.train as train
+from numpy import ravel
 
 app = typer.Typer()
 
@@ -46,7 +47,7 @@ def main(
     # Train model
     logger.info("Fitting training data")
     sgdr = SGDRegressor(max_iter=1000)
-    train.fit_model(sgdr, features, labels)
+    train.fit_model(sgdr, features, ravel(labels))
 
     # Review parameters
     b_norm = sgdr.intercept_
