@@ -11,7 +11,7 @@ import iraklis7_linrg.config as config
 app = typer.Typer()
 
 def do_hist(data, width, height, show):
-    plt.hist(data, figsize=(width,height), edgecolor="black")
+    data.hist(figsize=(width,height), edgecolor="black")
     if(show):
         plt.show()
 

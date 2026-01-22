@@ -14,6 +14,7 @@ share/
 # PCA files
 0b-pca copy.ipynb
 0b-pca.ipynb
+0c-pca2.ipynb
 
 # Parser files
 parser.py
