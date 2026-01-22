@@ -13,15 +13,20 @@ def transform_data(data, sqm_limit):
     # Drop rows where square meters are more then 300
     result = result.query(f'Εμβαδόν < {sqm_limit}')
     # Drop rows where floor is unspecified
-    result['Όροφος'] = result['Όροφος'].fillna('NULL')
+    #result['Όροφος'] = result['Όροφος'].fillna('NULL')
+    result['Όροφος'].fillna('NULL')
     result = result.query('Όροφος != "NULL"')
     # Set rows where view is unspecifed to 'No View'
-    result['Θέα'] = result['Θέα'].fillna('0')
+    #result['Θέα'] = 
+    result['Θέα'].fillna('0')
     # Set rows where elevator is unspecified to 'No Elevator'
-    result['Ασανσέρ'] = result['Ασανσέρ'].fillna('0')
+    #result['Ασανσέρ'] = 
+    result['Ασανσέρ'].fillna('0')
     # Remove thousands from price and convert to numeric
-    result['Τιμή'] = result['Τιμή']/1000
-    result['Αρχική Τιμή'] = result['Αρχική Τιμή']/1000
+    result['Τιμή'] /= 1000
+    #result['Τιμή']/1000
+    result['Αρχική Τιμή'] /= 1000
+    #result['Αρχική Τιμή']/1000
 
     return result
 
