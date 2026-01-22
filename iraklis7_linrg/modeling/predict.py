@@ -33,7 +33,7 @@ def main(
     # ---- REPLACE THIS WITH YOUR OWN CODE ----
     logger.info("Loading data from: " + str(features_path))
     try:
-        features = pd.DataFrame(config.read_data(features_path))
+        features = config.read_data(features_path)
     except Exception as e:
         logger.exception("Unable to load data: " + str(e))
 

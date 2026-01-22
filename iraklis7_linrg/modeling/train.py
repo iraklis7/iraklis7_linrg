@@ -34,10 +34,10 @@ def main(
     # ---- REPLACE THIS WITH YOUR OWN CODE ----
     logger.info("Training model...")
 
-    features = pd.DataFrame(config.read_data(features_path))
+    features = config.read_data(features_path)
     if features is None:
         raise ValueError("read_data failed - data is None")
-    labels = pd.DataFrame(config.read_data(labels_path))
+    labels = config.read_data(labels_path)
     if labels is None:
         raise ValueError("read_data failed - data is None")
 
