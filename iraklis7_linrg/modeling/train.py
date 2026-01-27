@@ -1,19 +1,23 @@
 from pathlib import Path
-from loguru import logger
-import typer
-from sklearn.linear_model import SGDRegressor
+
 from joblib import dump
-import pandas as pd
+from loguru import logger
+from numpy import ravel
+from sklearn.linear_model import SGDRegressor
+import typer
+
 import iraklis7_linrg.config as config
 import iraklis7_linrg.modeling.train as train
-from numpy import ravel
 
 app = typer.Typer()
+
 
 def fit_model(sgdr, features, labels):
     sgdr.fit(features, labels)
     logger.info(sgdr)
-    logger.info(f"number of iterations completed: {sgdr.n_iter_}, number of weight updates: {sgdr.t_}")
+    logger.info(
+        f"number of iterations completed: {sgdr.n_iter_}, number of weight updates: {sgdr.t_}"
+    )
 
 
 def save_model(sgdr, output_path):
@@ -22,6 +26,7 @@ def save_model(sgdr, output_path):
         logger.debug("Model saved to: " + str(output_path))
     except Exception as e:
         logger.exception("Unable to save model: " + str(e))
+
 
 @app.command()
 def main(
@@ -41,7 +46,7 @@ def main(
     if labels is None:
         raise ValueError("read_data failed - data is None")
 
-    X_features = ['Εμβαδόν','Όροφος Ρετιρέ', 'Κατάσταση', 'Ασανσέρ από 3ο']
+    X_features = ["Εμβαδόν", "Όροφος Ρετιρέ", "Κατάσταση", "Ασανσέρ από 3ο"]
     features = features[X_features]
 
     # Train model
@@ -53,7 +58,7 @@ def main(
     b_norm = sgdr.intercept_
     w_norm = sgdr.coef_
     logger.info(f"model parameters: w: {w_norm}, b:{b_norm}")
-    
+
     # Save the model
     logger.info("Saving model")
     save_model(sgdr, model_path)

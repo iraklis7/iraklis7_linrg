@@ -1,13 +1,16 @@
 from pathlib import Path
-from loguru import logger
-import typer
-import pandas as pd
+
 import joblib
+from loguru import logger
+import pandas as pd
 import sklearn.metrics as metrics
+import typer
+
 import iraklis7_linrg.config as config
 import iraklis7_linrg.plots as plots
 
 app = typer.Typer()
+
 
 def score_model(labels, predictions):
     logger.info(f"MAE: {metrics.mean_absolute_error(labels, predictions)}")
@@ -47,9 +50,9 @@ def main(
         linreg_model = joblib.load(model_path)
     except Exception as e:
         logger.exception("Unable to load model: " + str(e))
-        
+
     logger.info("Performing inference")
-    X_features = ['Εμβαδόν','Όροφος Ρετιρέ', 'Κατάσταση', 'Ασανσέρ από 3ο']
+    X_features = ["Εμβαδόν", "Όροφος Ρετιρέ", "Κατάσταση", "Ασανσέρ από 3ο"]
     features = features[X_features]
 
     # Make predictions
@@ -60,12 +63,14 @@ def main(
     b_norm = linreg_model.intercept_
     w_norm = linreg_model.coef_
     dataN = features.to_numpy()
-    plots.gen(list(dataN), dataN, labels, predictions, w_norm, b_norm, show=False, output_path=plot_path)
+    plots.gen(
+        list(dataN), dataN, labels, predictions, w_norm, b_norm, show=False, output_path=plot_path
+    )
 
-    logger.info(f"Samnple predictions on training set:\n{predictions[:4]}" )
+    logger.info(f"Samnple predictions on training set:\n{predictions[:4]}")
     logger.info("Writing predictions to " + str(predictions_path))
     try:
-        config.write_data(predictions_path, pd.DataFrame(predictions, columns=['ΕκΤιμή']))
+        config.write_data(predictions_path, pd.DataFrame(predictions, columns=["ΕκΤιμή"]))
     except Exception as e:
         logger.exception("Unable to write predictions: " + str(e))
 

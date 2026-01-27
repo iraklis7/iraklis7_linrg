@@ -2,7 +2,7 @@ from pathlib import Path
 
 from loguru import logger
 import typer
-import pandas as pd
+
 import iraklis7_linrg.config as config
 
 app = typer.Typer()
@@ -11,17 +11,17 @@ app = typer.Typer()
 def transform_data(data, sqm_limit):
     result = data.copy()
     # Drop rows where square meters are more then 300
-    result = result.query(f'Εμβαδόν < {sqm_limit}')
+    result = result.query(f"Εμβαδόν < {sqm_limit}")
     # Drop rows where floor is unspecified
-    result['Όροφος'].fillna('NULL')
+    result["Όροφος"].fillna("NULL")
     result = result.query('Όροφος != "NULL"')
     # Set rows where view is unspecifed to 'No View'
-    result['Θέα'].fillna('0')
+    result["Θέα"].fillna("0")
     # Set rows where elevator is unspecified to 'No Elevator'
-    result['Ασανσέρ'].fillna('0')
+    result["Ασανσέρ"].fillna("0")
     # Remove thousands from price and convert to numeric
-    result['Τιμή'] /= 1000
-    result['Αρχική Τιμή'] /= 1000
+    result["Τιμή"] /= 1000
+    result["Αρχική Τιμή"] /= 1000
 
     return result
 
@@ -44,15 +44,15 @@ def main(
     logger.debug(data.info())
     logger.debug(data.isna().sum())
     logger.debug(data.describe())
-    logger.debug(data.select_dtypes('number'))
+    logger.debug(data.select_dtypes("number"))
 
     # Tranform data
     logger.info("Transforming data ...")
     data_tr = transform_data(data, 300)
 
     logger.info("Writing features and labels to file ...")
-    config.write_data(output_path,data_tr)
-    
+    config.write_data(output_path, data_tr)
+
     logger.success("Processing dataset complete.")
     # -----------------------------------------
 
