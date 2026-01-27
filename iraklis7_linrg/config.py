@@ -9,10 +9,6 @@ from sklearn.preprocessing import StandardScaler
 # Load environment variables from .env file if it exists
 load_dotenv()
 
-extra_path = "/Users/iraklis/Public/iraklis7_linrg"
-if extra_path not in sys.path:
-    sys.path.append(extra_path)
-
 # Paths
 PROJ_ROOT = Path(__file__).resolve().parents[1]
 logger.info(f"PROJ_ROOT path is: {PROJ_ROOT}")
